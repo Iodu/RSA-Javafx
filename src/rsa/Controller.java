@@ -28,6 +28,7 @@ import java.lang.Math;
 
 
 public class Controller {
+    private int pAndQ;
     private BigInteger p;
     private BigInteger q;
     private BigInteger n;
@@ -41,6 +42,12 @@ public class Controller {
 
     @FXML
     private TextField nField;
+
+    @FXML
+    private TextField pField;
+
+    @FXML
+    private TextField qField;
 
     @FXML
     private TextArea mArea;
@@ -65,35 +72,64 @@ public class Controller {
         Scene scene = new Scene((Parent) FXMLLoader.load(getClass().getResource("encryption.fxml")));
         dialogStage.setScene(scene);
         dialogStage.show();
+        System.out.println(pAndQ);
+    }
+
+    @FXML
+    private void useN(ActionEvent event) {
+        if (pAndQ == 2) {
+            outputLabel.setText("You have already chosen to use P and Q, there is no way back now!");
+        } else {
+            pAndQ = 1;
+            nField.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void usePQ(ActionEvent event) {
+        if (pAndQ == 1) {
+            outputLabel.setText("You have already chosen to use N, there is no way back now!");
+        } else {
+            pAndQ = 2;
+            pField.setVisible(true);
+            qField.setVisible(true);
+        }
     }
 
     @FXML
     private void calculatePQ(ActionEvent event) {
-        List<BigInteger> pAndQ = new ArrayList<BigInteger>();
-        n = new BigInteger(nField.getText());
-        BigInteger new_n = n;
-        BigInteger i = new BigInteger(("2"));
-        long startTime = System.currentTimeMillis();
-        while (new_n.compareTo(i) > 0) {
-            while (new_n.mod(i).equals(zero)) {
-                pAndQ.add(i);
-                new_n = new_n.divide((i));
+        if (pAndQ == 2) {
+            p = new BigInteger(pField.getText());
+            q = new BigInteger(qField.getText());
+            n = p.multiply(q);
+            outputLabel.setText("Value of N: " + n.toString());
+        } else {
+            List<BigInteger> pAndQ = new ArrayList<BigInteger>();
+            n = new BigInteger(nField.getText());
+            BigInteger new_n = n;
+            BigInteger i = new BigInteger(("2"));
+            long startTime = System.currentTimeMillis();
+            while (new_n.compareTo(i) > 0) {
+                while (new_n.mod(i).equals(zero)) {
+                    pAndQ.add(i);
+                    new_n = new_n.divide((i));
+                }
+                i = i.add(one);
             }
-            i = i.add(one);
-        }
-        if (new_n.compareTo(two) > 0) {
-            pAndQ.add(new_n);
-        }
-        long endTime = System.currentTimeMillis();
+            if (new_n.compareTo(two) > 0) {
+                pAndQ.add(new_n);
+            }
+            long endTime = System.currentTimeMillis();
 
-        pAndQ.remove((n));
-        StringBuilder sb = new StringBuilder();
-        p = pAndQ.get(0);
-        q = pAndQ.get(1);
-        sb.append("p is " + p.toString() + "\n");
-        sb.append("q is " + q.toString() + "\n");
-        sb.append("Amount of time busy finding p and q:" + (endTime - startTime) + "milliseconds");
-        outputLabel.setText(sb.toString());
+            pAndQ.remove((n));
+            StringBuilder sb = new StringBuilder();
+            p = pAndQ.get(0);
+            q = pAndQ.get(1);
+            sb.append("p is " + p.toString() + "\n");
+            sb.append("q is " + q.toString() + "\n");
+            sb.append("Amount of time busy finding p and q:" + (endTime - startTime) + "milliseconds");
+            outputLabel.setText(sb.toString());
+        }
     }
 
     @FXML
@@ -118,13 +154,13 @@ public class Controller {
         StringBuilder sb = new StringBuilder();
         byte[] byteValues = m.getBytes();
         System.out.println(Arrays.toString(byteValues));
-        for(byte byteValue : byteValues){
+        for (byte byteValue : byteValues) {
             BigInteger bigIntegerValue = new BigInteger(Byte.toString(byteValue));
             bigIntegerValue = bigIntegerValue.pow(e.intValue());
             bigIntegerValue = bigIntegerValue.mod(n);
-            sb.append(bigIntegerValue.intValue() +  ",");
+            sb.append(bigIntegerValue.intValue() + ",");
         }
-        System.out.println("KIJK HIER " + sb.toString());
+        outputLabel.setText(sb.toString().replaceFirst(".$",""));
     }
 
     @FXML
@@ -171,7 +207,7 @@ public class Controller {
         String[] stringValuesArray = c.split(",");
         byte[] byteValuesArray = new byte[stringValuesArray.length];
         int i = 0;
-        for(String value : stringValuesArray){
+        for (String value : stringValuesArray) {
             BigInteger bigIntegerValue = new BigInteger(value);
             bigIntegerValue = bigIntegerValue.pow(d.intValue());
             byteValuesArray[i] = bigIntegerValue.mod(n).byteValueExact();
