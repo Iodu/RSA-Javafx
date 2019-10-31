@@ -6,25 +6,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
-
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
-
-import javax.swing.*;
-import java.lang.Math;
 
 
 public class Controller {
@@ -38,7 +32,7 @@ public class Controller {
     private BigInteger zero = new BigInteger(("0"));
     private BigInteger one = new BigInteger(("1"));
     private BigInteger two = new BigInteger(("2"));
-    private BigInteger encryptedByte;
+
 
     @FXML
     private TextField nField;
@@ -63,6 +57,15 @@ public class Controller {
 
     @FXML
     private Label outputLabel;
+
+
+    @FXML
+    private void copyToClipboard(ActionEvent event) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(outputLabel.getText());
+        clipboard.setContent(content);
+    }
 
     @FXML
     private void startEncryption(ActionEvent event) throws IOException {
@@ -160,7 +163,7 @@ public class Controller {
             bigIntegerValue = bigIntegerValue.mod(n);
             sb.append(bigIntegerValue.intValue() + ",");
         }
-        outputLabel.setText(sb.toString().replaceFirst(".$",""));
+        outputLabel.setText(sb.toString().replaceFirst(".$", ""));
     }
 
     @FXML
