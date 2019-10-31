@@ -9,16 +9,16 @@
 
 <AnchorPane prefHeight="656.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rsa.Controller">
    <children>
-      <Button layoutX="368.0" layoutY="66.0" mnemonicParsing="false" onAction="#calculatePQ" text="Step 1" />
-      <TextField id="nField" fx:id="nField" layoutX="98.0" layoutY="66.0" promptText="Enter an N value" />
+      <Button layoutX="368.0" layoutY="66.0" mnemonicParsing="false" onAction="#calculateD" text="Step 1" />
+      <TextField id="nFieldDecrypt" fx:id="nFieldDecrypt" layoutX="43.0" layoutY="66.0" prefHeight="25.0" prefWidth="100.0" promptText="Enter an N value" />
       <Label layoutX="52.0" layoutY="307.0" prefHeight="17.0" prefWidth="316.0" text="Output" textAlignment="CENTER" underline="true">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
       <Label fx:id="outputLabel" layoutX="52.0" layoutY="328.0" prefHeight="319.0" prefWidth="518.0" />
-      <Button layoutX="368.0" layoutY="132.0" mnemonicParsing="false" onAction="#calculateE" text="Step 2" />
-      <Button layoutX="368.0" layoutY="201.0" mnemonicParsing="false" onAction="#encryptMessage" text="Step 3" />
-      <TextArea id="mArea" fx:id="mArea" layoutX="43.0" layoutY="167.0" prefHeight="119.0" prefWidth="259.0" promptText="Message to encrypt" />
+      <Button layoutX="368.0" layoutY="201.0" mnemonicParsing="false" onAction="#decryptMessage" text="Step 2" />
+      <TextArea id="mArea" fx:id="cArea" layoutX="43.0" layoutY="167.0" prefHeight="119.0" prefWidth="259.0" promptText="Message to decrypt (C)" />
+      <TextField id="eFieldDecrypt" fx:id="eFieldDecrypt" layoutX="173.0" layoutY="66.0" prefHeight="25.0" prefWidth="100.0" promptText="Enter an E value" />
    </children>
 </AnchorPane>
