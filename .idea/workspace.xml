@@ -6,7 +6,6 @@
       <change beforePath="$PROJECT_DIR$/out/production/RSA/rsa/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RSA/rsa/Controller.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/RSA/rsa/encryption.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RSA/rsa/encryption.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rsa/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/rsa/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rsa/decryption.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/rsa/decryption.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rsa/encryption.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/rsa/encryption.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

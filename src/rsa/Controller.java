@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -57,6 +58,9 @@ public class Controller {
 
     @FXML
     private Label outputLabel;
+
+    @FXML
+    private Button nextEButton;
 
 
     @FXML
@@ -157,6 +161,20 @@ public class Controller {
         BigInteger qMinusOne = q.subtract(one);
         phiN = pMinusOne.multiply(qMinusOne);
         e = two;
+        while (true) {
+            if ((e.gcd(phiN)).equals(one)) {
+                break;
+            } else {
+                e = e.add(one);
+            }
+        }
+        nextEButton.setVisible(true);
+        outputLabel.setText("e is " + e.toString());
+    }
+
+    @FXML
+    private void calculateNextE(ActionEvent event) {
+        e = e.add(one);
         while (true) {
             if ((e.gcd(phiN)).equals(one)) {
                 break;
