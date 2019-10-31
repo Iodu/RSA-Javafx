@@ -19,7 +19,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import rsa.Main;
 
 public class Controller {
     private int pAndQ;
@@ -60,6 +60,23 @@ public class Controller {
 
 
     @FXML
+    private void startOver(ActionEvent event) throws IOException {
+        p = null;
+        q = null;
+        d = null;
+        e = null;
+        n = null;
+        phiN = null;
+        pAndQ = 0;
+        Node source = (Node) event.getSource();
+        Stage dialogStage = (Stage) source.getScene().getWindow();
+        dialogStage.close();
+        Scene scene = new Scene((Parent) FXMLLoader.load(getClass().getResource("main.fxml")));
+        dialogStage.setScene(scene);
+        dialogStage.show();
+    }
+
+    @FXML
     private void copyToClipboard(ActionEvent event) {
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
@@ -75,7 +92,6 @@ public class Controller {
         Scene scene = new Scene((Parent) FXMLLoader.load(getClass().getResource("encryption.fxml")));
         dialogStage.setScene(scene);
         dialogStage.show();
-        System.out.println(pAndQ);
     }
 
     @FXML
@@ -156,7 +172,6 @@ public class Controller {
         String m = mArea.getText();
         StringBuilder sb = new StringBuilder();
         byte[] byteValues = m.getBytes();
-        System.out.println(Arrays.toString(byteValues));
         for (byte byteValue : byteValues) {
             BigInteger bigIntegerValue = new BigInteger(Byte.toString(byteValue));
             bigIntegerValue = bigIntegerValue.pow(e.intValue());
@@ -214,7 +229,6 @@ public class Controller {
             BigInteger bigIntegerValue = new BigInteger(value);
             bigIntegerValue = bigIntegerValue.pow(d.intValue());
             byteValuesArray[i] = bigIntegerValue.mod(n).byteValueExact();
-            System.out.println(byteValuesArray[i]);
             i++;
         }
         outputLabel.setText("Message after decryption is: " + new String(byteValuesArray));

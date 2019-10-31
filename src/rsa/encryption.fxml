@@ -25,5 +25,6 @@
       <TextField id="qField" fx:id="qField" layoutX="197.0" layoutY="66.0" prefHeight="25.0" prefWidth="100.0" promptText="Enter an Q value" visible="false" />
       <TextField id="pField" fx:id="pField" layoutX="34.0" layoutY="66.0" prefHeight="25.0" prefWidth="100.0" promptText="Enter an P value" visible="false" />
       <Button layoutX="424.0" layoutY="295.0" mnemonicParsing="false" onAction="#copyToClipboard" text="Copy Output" />
+      <Button layoutX="43.0" layoutY="14.0" mnemonicParsing="false" onAction="#startOver" text="Back to Menu" />
    </children>
 </AnchorPane>
