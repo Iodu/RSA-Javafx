@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import rsa.Main;
 
 public class Controller {
     private int pAndQ;
@@ -58,6 +56,9 @@ public class Controller {
 
     @FXML
     private Label outputLabel;
+
+    @FXML
+    private Label timeLabel;
 
     @FXML
     private Button nextEButton;
@@ -148,9 +149,11 @@ public class Controller {
             StringBuilder sb = new StringBuilder();
             p = pAndQ.get(0);
             q = pAndQ.get(1);
+            System.out.println(p.toString());
+            System.out.println(q.toString());
             sb.append("p is " + p.toString() + "\n");
             sb.append("q is " + q.toString() + "\n");
-            sb.append("Amount of time busy finding p and q:" + (endTime - startTime) + "milliseconds");
+            timeLabel.setText("Amount of time busy finding p and q: " + (endTime - startTime) + " milliseconds");
             outputLabel.setText(sb.toString());
         }
     }
@@ -190,12 +193,15 @@ public class Controller {
         String m = mArea.getText();
         StringBuilder sb = new StringBuilder();
         byte[] byteValues = m.getBytes();
+        long startTime = System.currentTimeMillis();
         for (byte byteValue : byteValues) {
             BigInteger bigIntegerValue = new BigInteger(Byte.toString(byteValue));
             bigIntegerValue = bigIntegerValue.pow(e.intValue());
             bigIntegerValue = bigIntegerValue.mod(n);
             sb.append(bigIntegerValue.intValue() + ",");
         }
+        long endTime = System.currentTimeMillis();
+        timeLabel.setText("Amount of time busy decrypting: " + (endTime - startTime) + " milliseconds\n");
         outputLabel.setText(sb.toString().replaceFirst(".$", ""));
     }
 
@@ -239,16 +245,26 @@ public class Controller {
 
     @FXML
     private void decryptMessage(ActionEvent event) throws UnsupportedEncodingException {
+        StringBuilder sb = new StringBuilder();
         String c = cArea.getText();
+        System.out.println("xd");
         String[] stringValuesArray = c.split(",");
+        System.out.println("xd");
         byte[] byteValuesArray = new byte[stringValuesArray.length];
-        int i = 0;
-        for (String value : stringValuesArray) {
-            BigInteger bigIntegerValue = new BigInteger(value);
-            bigIntegerValue = bigIntegerValue.pow(d.intValue());
-            byteValuesArray[i] = bigIntegerValue.mod(n).byteValueExact();
-            i++;
+        System.out.println("xd");
+        BigInteger bigIntegerValue;
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < stringValuesArray.length; i++) {
+            bigIntegerValue = new BigInteger(stringValuesArray[i]);
+            byteValuesArray[i] = bigIntegerValue.modPow(d, n).byteValueExact();
         }
-        outputLabel.setText("Message after decryption is: " + new String(byteValuesArray));
+        long endTime = System.currentTimeMillis();
+
+        timeLabel.setText("Amount of time busy decrypting: " + (endTime - startTime) + " milliseconds\n");
+        sb.append("Message after decryption is: " + new String(byteValuesArray));
+
+        outputLabel.setText(sb.toString());
+
     }
 }
+
