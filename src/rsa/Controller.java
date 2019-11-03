@@ -145,8 +145,6 @@ public class Controller {
             StringBuilder sb = new StringBuilder();
             p = pAndQ.get(0);
             q = pAndQ.get(1);
-            System.out.println(p.toString());
-            System.out.println(q.toString());
             sb.append("p is " + p.toString() + "\n");
             sb.append("q is " + q.toString() + "\n");
             timeLabel.setText("Amount of time busy finding p and q: " + (endTime - startTime) + " milliseconds");
@@ -189,7 +187,6 @@ public class Controller {
         String m = mArea.getText();
         StringBuilder sb = new StringBuilder();
         byte[] byteValues = m.getBytes();
-        System.out.println(Arrays.toString(byteValues));
         long startTime = System.currentTimeMillis();
         for (byte byteValue : byteValues) {
             BigInteger bigIntegerValue = new BigInteger(Byte.toString(byteValue));
@@ -245,8 +242,6 @@ public class Controller {
     private void decryptMessage(ActionEvent event) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         String c = cArea.getText();
-        System.out.println(c);
-        System.out.println(c);
         String[] stringValuesArray = c.split(",");
         byte[] byteValuesArray = new byte[stringValuesArray.length];
         BigInteger bigIntegerValue;
@@ -254,9 +249,7 @@ public class Controller {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < stringValuesArray.length; i++) {
             bigIntegerValue = new BigInteger(stringValuesArray[i]);
-            System.out.println("big int: " + bigIntegerValue.toString());
             bigIntegerValue = bigIntegerValue.modPow(d, n);
-            System.out.println(bigIntegerValue);
             byteValuesArray[i] = bigIntegerValue.byteValueExact();
         }
         long endTime = System.currentTimeMillis();
