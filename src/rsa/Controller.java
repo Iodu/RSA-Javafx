@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
@@ -101,24 +102,19 @@ public class Controller {
 
     @FXML
     private void useN(ActionEvent event) {
-        if (pAndQ == 2) {
-            outputLabel.setText("You have already chosen to use P and Q, there is no way back now!");
-        } else {
-            pAndQ = 1;
-            nField.setVisible(true);
-        }
+        pAndQ = 1;
+        qField.setVisible(false);
+        pField.setVisible(false);
+        nField.setVisible(true);
     }
 
     @FXML
     private void usePQ(ActionEvent event) {
-        if (pAndQ == 1) {
-            outputLabel.setText("You have already chosen to use N, there is no way back now!");
-        } else {
             pAndQ = 2;
+            nField.setVisible(false);
             pField.setVisible(true);
             qField.setVisible(true);
         }
-    }
 
     @FXML
     private void calculatePQ(ActionEvent event) {
@@ -193,11 +189,11 @@ public class Controller {
         String m = mArea.getText();
         StringBuilder sb = new StringBuilder();
         byte[] byteValues = m.getBytes();
+        System.out.println(Arrays.toString(byteValues));
         long startTime = System.currentTimeMillis();
         for (byte byteValue : byteValues) {
             BigInteger bigIntegerValue = new BigInteger(Byte.toString(byteValue));
-            bigIntegerValue = bigIntegerValue.pow(e.intValue());
-            bigIntegerValue = bigIntegerValue.mod(n);
+            bigIntegerValue = bigIntegerValue.modPow(e, n);
             sb.append(bigIntegerValue.intValue() + ",");
         }
         long endTime = System.currentTimeMillis();
@@ -240,6 +236,8 @@ public class Controller {
         BigInteger qMinusOne = q.subtract(one);
         phiN = pMinusOne.multiply(qMinusOne);
         d = e.modInverse(phiN);
+        long endTime = System.currentTimeMillis();
+        timeLabel.setText("Amount of time busy finding d: " + (endTime - startTime) + " milliseconds\n");
         outputLabel.setText("d is " + d.toString());
     }
 
@@ -247,16 +245,19 @@ public class Controller {
     private void decryptMessage(ActionEvent event) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         String c = cArea.getText();
-        System.out.println("xd");
+        System.out.println(c);
+        System.out.println(c);
         String[] stringValuesArray = c.split(",");
-        System.out.println("xd");
         byte[] byteValuesArray = new byte[stringValuesArray.length];
-        System.out.println("xd");
         BigInteger bigIntegerValue;
+        BigInteger exactByteValue;
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < stringValuesArray.length; i++) {
             bigIntegerValue = new BigInteger(stringValuesArray[i]);
-            byteValuesArray[i] = bigIntegerValue.modPow(d, n).byteValueExact();
+            System.out.println("big int: " + bigIntegerValue.toString());
+            bigIntegerValue = bigIntegerValue.modPow(d, n);
+            System.out.println(bigIntegerValue);
+            byteValuesArray[i] = bigIntegerValue.byteValueExact();
         }
         long endTime = System.currentTimeMillis();
 
